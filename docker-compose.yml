@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      - MODE=production
+      - DOMAIN=https://fastinvest.cloud
+    restart: unless-stopped
+    ports:
+      - "80:80"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - PORT=5001
+      - MONGODB_CONNECTIONSTRING=${MONGODB_CONNECTIONSTRING}
+    restart: unless-stopped
+    ports:
+      - "5001:5001"

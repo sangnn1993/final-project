@@ -1,0 +1,24 @@
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build
+frontend/build/
+frontend/dist/
+
+# Env (RẤT QUAN TRỌNG - không push file chứa password)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Docker
+*.log
+docker-compose.override.yml
+
+# Editor / OS
+.DS_Store
+.vscode/
+.idea/
