@@ -7,7 +7,7 @@ import path from "path";
 
 dotenv.config();
 
-const PORT = process.env.PORT || 5001;  // Đồng bộ với docker-compose và Dockerfile
+const PORT = process.env.PORT || 5001;
 const __dirname = path.resolve();
 
 const app = express();
@@ -17,8 +17,7 @@ app.use(express.json());
 
 // Bật CORS cho cả dev và production (fix 405 preflight)
 app.use(cors({
-  origin: true,  // Tạm thời cho phép mọi origin (test nhanh, an toàn cho bài tập)
-  // Nếu muốn giới hạn: origin: ["http://localhost:5173", "http://76.13.212.120"],
+  origin: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
