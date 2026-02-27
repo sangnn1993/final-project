@@ -26,7 +26,7 @@ services:
     restart: unless-stopped
     ports:
       - '80:80'    # HTTP
-      - '81:81'    # Admin UI (đây là port admin thật!)
+      - '81:81'    # Admin UI
       - '443:443'  # HTTPS
     environment:
       DB_MYSQL_HOST: "db"
