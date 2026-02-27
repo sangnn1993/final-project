@@ -4,7 +4,7 @@ const isDev = import.meta.env.MODE === "development";
 
 const BASE_URL = isDev
   ? "http://localhost:5001/api"
-  : `http://api.fastinvest.cloud/api`;   // tự động lấy dns
+  : `https://api.fastinvest.cloud/api`;
 
 const api = axios.create({
   baseURL: BASE_URL,
