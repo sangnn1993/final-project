@@ -13,9 +13,12 @@ jobs:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.VPS_KEY }}
+        port: 22
+        request_pty: true
         script: |
           cd final-project
           git pull
           docker compose down
+          BUILDKIT_PROGRESS=plain docker compose build --progress=plain --no-cache
           docker compose up -d --build
           docker images -f "dangling=true" -q | xargs docker rmi
