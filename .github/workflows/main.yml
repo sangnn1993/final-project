@@ -14,7 +14,7 @@ jobs:
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.VPS_KEY }}
         script: |
-          cd /root/final-project
+          cd final-project
           git pull
           docker-compose down
           docker-compose build
