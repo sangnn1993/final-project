@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         DEPLOY_PATH = '/root/final-project'
+        VPS_HOST    = 'fastinvest.cloud'
     }
 
     stages {
@@ -14,7 +15,7 @@ pipeline {
                     usernameVariable: 'SSH_USER'
                 )]) {
                     sh """
-                        ssh -o StrictHostKeyChecking=no -i \${SSH_KEY} \${SSH_USER} '
+                        ssh -o StrictHostKeyChecking=no -i \${SSH_KEY} \${SSH_USER}@\${VPS_HOST} '
                             cd \${DEPLOY_PATH}
                             git pull
                             docker compose down
