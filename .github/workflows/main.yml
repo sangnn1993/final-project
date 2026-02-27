@@ -1,8 +1,10 @@
 name: Deploy
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:  # Chạy thủ công (Comment khi muốn chạy theo event push)
+  # push: # Bỏ cmt để chạy theo event push code vào main
+  #   branches:
+  #     - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
