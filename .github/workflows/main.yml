@@ -16,6 +16,7 @@ jobs:
         script: |
           cd final-project
           git pull
+          pwd
           docker-compose down
           docker-compose build
           docker-compose up -d
