@@ -11,7 +11,7 @@ services:
     restart: unless-stopped
     # Bỏ ports mapping ra ngoài vì giờ frontend sẽ được phục vụ qua nginx
     ports:
-      - "8080:80"
+      - "8080:8080"
     networks:
       - app-network
 
