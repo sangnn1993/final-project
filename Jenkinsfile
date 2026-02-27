@@ -16,8 +16,7 @@ pipeline {
                 )]) {
                     sh """
                         ssh -o StrictHostKeyChecking=no -i \${SSH_KEY} \${SSH_USER}@\${VPS_HOST} '
-                            cd \${DEPLOY_PATH}
-                            git pull
+                            cd \${DEPLOY_PATH} && git pull
                             docker compose down
                             docker compose up -d --build
                         '
