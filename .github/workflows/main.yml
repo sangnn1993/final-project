@@ -16,7 +16,7 @@ jobs:
         script: |
           cd final-project
           git pull
-          pwd
-          docker-compose down
-          docker-compose build
-          docker-compose up -d
+          docker compose down
+          docker compose build
+          docker compose up -d --build
+          docker images -f "dangling=true" -q | xargs docker rmi
