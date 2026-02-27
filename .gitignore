@@ -7,7 +7,7 @@ yarn-error.log
 frontend/build/
 frontend/dist/
 
-# Env (RẤT QUAN TRỌNG - không push file chứa password)
+# Env
 .env
 .env.local
 .env.development.local
