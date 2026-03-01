@@ -10,7 +10,7 @@ export const connectDB = async () => {
 
     await mongoose.connect(process.env.MONGODB_CONNECTIONSTRING, {
       // Các option ổn định và thường dùng với Atlas
-      serverSelectionTimeoutMS: 5000,     // timeout nếu không connect được
+      serverSelectionTimeoutMS: 30000,     // timeout nếu không connect được
       maxPoolSize: 10,                    // giới hạn connection pool
     });
 
