@@ -17,7 +17,7 @@ app.use(express.json());
 
 // Bật CORS cho cả dev và production (fix 405 preflight)
 app.use(cors({
-  origin: true,
+  origin: ['https://fastinvest.cloud', 'https://www.fastinvest.cloud'],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
