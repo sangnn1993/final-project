@@ -17,6 +17,8 @@ services:
       - NODE_ENV=production
       - PORT=5001
       - MONGODB_CONNECTIONSTRING=${MONGODB_CONNECTIONSTRING}
+    depends_on:
+      - mongodb
     restart: unless-stopped
     networks:
       - app-network
