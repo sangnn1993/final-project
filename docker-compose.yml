@@ -28,7 +28,7 @@ services:
     container_name: mongodb
     restart: unless-stopped
     ports:
-      - "27017:27017"
+      - "127.0.0.1:27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: Oshotootoshi@123
@@ -51,8 +51,6 @@ services:
       - '80:80'    # HTTP
       - '81:81'    # Admin UI
       - '443:443'  # HTTPS
-    environment:
-      DB_MYSQL_HOST: "db"
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
