@@ -17,14 +17,14 @@ app.use(express.json());
 
 // Bật CORS cho cả dev và production (fix 405 preflight)
 app.use(cors({
-  origin: ['https://fastinvest.cloud', 'https://www.fastinvest.cloud'],
+  origin: 'https://fastinvest.cloud',
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
 }));
 
 // Xử lý OPTIONS preflight cho mọi route (rất quan trọng để fix 405)
-app.options("*", cors());
+// app.options("*", cors());
 
 // Routes
 app.use("/api/tasks", taskRoute);
