@@ -18,7 +18,8 @@ services:
       - PORT=5001
       - MONGODB_CONNECTIONSTRING=${MONGODB_CONNECTIONSTRING}
     depends_on:
-      - mongodb
+      mongodb:
+        condition: service_healthy
     restart: unless-stopped
     networks:
       - app-network
