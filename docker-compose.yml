@@ -7,7 +7,7 @@ services:
       - MODE=production
     restart: unless-stopped
     networks:
-      - demo-network
+      - demo_network
 
   backend:
     build:
@@ -22,7 +22,7 @@ services:
         condition: service_healthy
     restart: unless-stopped
     networks:
-      - demo-network
+      - demo_network
   
   mongodb:
     image: mongo:7.0
@@ -36,7 +36,7 @@ services:
       - mongodb-data:/data/db
       - ./init-mongo:/docker-entrypoint-initdb.d:ro
     networks:
-      - demo-network
+      - demo_network
     healthcheck:
       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 10s
@@ -58,10 +58,10 @@ services:
       - frontend
       - backend
     networks:
-      - demo-network
+      - demo_network
 
 networks:
-  demo-network:
+  demo_network:
     driver: bridge
 
 volumes:
