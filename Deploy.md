@@ -103,3 +103,61 @@ TIẾN HÀNH THỰC HIỆN
         - Active: checked
 
       • Push code lên nhánh main → kiểm tra pipeline trong Jenkins
+    
+    2.3 Yêu cầu 4 - Giám sát
+    ────────────────────────
+      • Cài đặt grafana qua lệnh: docker run -d --name=grafana -p 3000:3000 --network final-project_demo_network grafana/grafana
+      • Vào NPM tạo host và gắn vào domain grafana.fastinvest.cloud
+      • Truy cập grafana qua tài khoản admin và đổi pass
+      • Tạo file prometheus.yml trong thư mục dự án trong VPS qua vim/nano và cấu hình nội dung:
+        global:
+          scrape_interval: 1m
+          scrape_configs:
+            - job_name: 'prometheus'
+              static_configs:
+                - targets: ['prometheus.fastinvest.cloud']
+            - job_name: 'node'
+              static_configs:
+                - targets: ['host-node-exporter:9100']
+            - job_name: "todoX-mongo-metrics"
+              scrape_interval: 10s
+              metrics_path: /metrics
+              scheme: http
+              static_configs:
+                - targets: ['mongodb-exporter:9216']
+            rule_files:
+                - "/etc/prometheus/alert.rules.yml"
+      •Tạo file alert.rules.yml trong thư mục dự án trong VPS qua vim/nano và cấu hình nội dung:
+        groups:
+          - name: mongodb-alerts
+            rules:
+            - alert: MongoDBDown
+              expr: up{job="todoX-mongo-metrics"} == 0
+              for: 2m
+              labels:
+                severity: critical
+              annotations:
+                summary: "MongoDB exporter down"
+            - alert: HighMongoDBConnections
+              expr: mongodb_connections_current > 500
+              for: 5m
+              labels:
+                severity: warning
+      • Cài đặt prometheus qua lệnh: docker run --name prometheus -d -p 9090:9090 --network final-project_demo_network -v ./prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
+      • Vào NPM tạo host và gắn vào domain prometheus.fastinvest.cloud
+      • Cài đặt node-exporter (docker run -d --name host-node-exporter --net="final-project_demo_network" -p 9100:9100 prom/node-exporter)
+        và mongo-exporter (docker run -d --name mongo-exporter --network final-project_demo_network percona/mongodb_exporter:0.49.0 --mongodb.uri="mongodb://mongo:27017") để lấy metric cho prometheus
+      • Kiểm tra metrics có hoạt động:
+        - Truy cập Prometheus UI: http://prometheus.fastinvest.cloud/targets → kiểm tra các target UP (prometheus, node, todoX-mongo-metrics)
+      • Cấu hình Grafana:
+        - Thêm Data Source → Prometheus
+        - URL: http://prometheus:9090 (dùng tên container trong network)
+        - Access: Server (default)
+        - Save & Test → phải thành công
+        - Import dashboard có sẵn cho MongoDB:
+        - Vào Dashboards → Import
+        - ID phổ biến & tốt:
+          + 2583 (MongoDB Exporter)
+          + 1860 (Node Exporter)
+        - Chọn Data Source vừa thêm → Import
+        - Tùy chỉnh dashboard nếu cần
