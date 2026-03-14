@@ -185,4 +185,31 @@ TIẾN HÀNH THỰC HIỆN
           # Chạy lệnh
           terraform plan   # xem trước sẽ tạo gì
           terraform apply  # gõ yes để tạo VPS thật
-                          
+      
+    2.5 Tạo script Ansible
+    ────────────────────────
+      • Tạo thư mục ansible       
+        ansible/
+        ├── inventory.ini          # Danh sách server
+        ├── ansible.cfg            # Config chung
+        ├── group_vars/
+        │   └── all.yml            # Biến chung
+        ├── playbooks/
+        │   └── deploy-todo.yml    # Playbook chính
+      • Cấu hình file inventory.ini
+      • Cấu hình file ansible.cfg
+      • Tạo biến chung group_vars/all.yml
+      • Cấu hình file chính deploy-todo.yml
+      • Chạy Ansible qua các lệnh:
+        # Dry-run trước (xem sẽ làm gì)
+        ansible-playbook -i inventory.ini playbooks/deploy-todo.yml --check
+        # Chạy thật
+        ansible-playbook -i inventory.ini playbooks/deploy-todo.yml
+
+
+KẾT QUẢ THỰC HIỆN
+═════════════════
+
+1. Truy cập front-end: https://fastinvest.cloud/ để sử dụng app
+2. Truy cập https://grafana.fastinvest.cloud/ để xem monitoring cho data và node-exporter
+3. Truy cập https://jenkins.fastinvest.cloud/ để quản lý CI-CD (check jenkinsfile)
