@@ -1,0 +1,10 @@
+---
+# Biến chung cho tất cả server
+app_repo_url: "https://github.com/sangnn1993/final-project.git"
+app_dir: "/root/final-project"
+
+docker_compose_version: "2.24.5"
+
+# Domain cho NPM
+frontend_domain: "fastinvest.cloud"
+backend_domain: "api.fastinvest.cloud"

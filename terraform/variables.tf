@@ -17,7 +17,7 @@ variable "plan" {
 }
 
 variable "data_center_id" {
-  description = "ID datacenter (chọn gần VN nhất)"
+  description = "ID datacenter"
   type        = number
   default     = 13 
 }
@@ -29,7 +29,13 @@ variable "template_id" {
 }
 
 variable "root_password" {
-  description = "Mật khẩu root ban đầu (nên đổi sau)"
+  description = "Mật khẩu root"
+  type        = string
+  sensitive   = true
+}
+
+variable "public_key" {
+  description = "Khóa để truy cập"
   type        = string
   sensitive   = true
 }

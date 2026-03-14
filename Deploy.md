@@ -161,3 +161,28 @@ TIẾN HÀNH THỰC HIỆN
           + 1860 (Node Exporter)
         - Chọn Data Source vừa thêm → Import
         - Tùy chỉnh dashboard nếu cần
+    
+    2.4 Tạo script Terraform
+    ────────────────────────
+      • Lấy API Token từ Hostinger
+      • Cài đặt Teraaform nầu chưa có dựa theo slide bài giảng
+      • Tạo thư mục Terraform và file cơ bản:
+        - main.tf
+        - outputs.tf
+        - providers.tf
+        - variables.tf
+      • Kiểm tra & lấy thông tin cần thiết theo các bước sau:
+          # Khởi tạo
+          terraform init
+          # Xem list plan có sẵn (bao gồm KVM2)
+          terraform console
+          > provider.hostinger.data_centers   # hoặc check docs
+          > provider.hostinger.os_templates
+      • Chạy Terraform theo các bước sau:
+          # Set biến
+          export TF_VAR_hostinger_api_token="your_token_here"
+          export TF_VAR_root_password="MatKhauManh123!"
+          # Chạy lệnh
+          terraform plan   # xem trước sẽ tạo gì
+          terraform apply  # gõ yes để tạo VPS thật
+                          

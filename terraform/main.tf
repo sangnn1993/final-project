@@ -4,6 +4,5 @@ resource "hostinger_vps" "todo_vps" {
   template_id       = var.template_id
   hostname          = var.hostname
   password          = var.root_password
-
-  # tags = ["todo-project", "mern"]
+  ssh_keys          = var.public_key
 }

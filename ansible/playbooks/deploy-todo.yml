@@ -1,0 +1,104 @@
+---
+- name: Deploy ToDo MERN App with Docker on VPS
+  hosts: vps
+  become: yes
+  vars:
+    npm_admin_email: "admin@fastinvest.cloud"   # thay bằng email thật
+    npm_admin_pass: "ChangeMeStrong123!"        # thay bằng pass mạnh
+
+  tasks:
+    - name: Update apt cache and upgrade packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+        cache_valid_time: 3600
+
+    - name: Install required packages
+      apt:
+        name:
+          - curl
+          - git
+          - ca-certificates
+          - gnupg
+          - lsb-release
+        state: present
+
+    # ----- Cài Docker official -----
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        state: present
+        filename: docker
+
+    - name: Install Docker packages
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: latest
+        update_cache: yes
+
+    - name: Start and enable Docker
+      systemd:
+        name: docker
+        enabled: yes
+        state: started
+
+    - name: Add user to docker group (nếu không dùng root lâu dài)
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+
+    # ----- Cài Docker Compose (nếu plugin chưa đủ, fallback dùng binary) -----
+    - name: Install Docker Compose plugin (nếu cần version cụ thể)
+      shell: |
+        mkdir -p ~/.docker/cli-plugins/
+        curl -SL https://github.com/docker/compose/releases/download/v{{ docker_compose_version }}/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
+        chmod +x ~/.docker/cli-plugins/docker-compose
+      args:
+        creates: ~/.docker/cli-plugins/docker-compose
+
+    # ----- Deploy ứng dụng -----
+    - name: Clone or pull project repo
+      git:
+        repo: "{{ app_repo_url }}"
+        dest: "{{ app_dir }}"
+        version: main
+        update: yes
+        force: yes
+
+    - name: Ensure docker network exists (nếu compose chưa tạo)
+      docker_network:
+        name: final-project_demo_network
+        state: present
+
+    - name: Deploy with docker compose
+      community.docker.docker_compose_v2:
+        project_src: "{{ app_dir }}"
+        files:
+          - docker-compose.yml
+        state: present
+        pull: true
+        remove_orphans: true
+      register: compose_output
+
+    - name: Debug compose output
+      debug:
+        var: compose_output
+
+    - name: Show next steps
+      debug:
+        msg: |
+          Deploy xong! Truy cập:
+          - Frontend: https://{{ frontend_domain }}
+          - Backend: https://{{ backend_domain }}/health (test)
+          Bây giờ vào Nginx Proxy Manager (http://IP:81 hoặc domain) để config proxy host + SSL.
