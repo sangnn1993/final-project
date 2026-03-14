@@ -211,5 +211,11 @@ KẾT QUẢ THỰC HIỆN
 ═════════════════
 
 1. Truy cập front-end: https://fastinvest.cloud/ để sử dụng app
+![Hình ảnh ứng dụn](to-do-app.png)
+
 2. Truy cập https://grafana.fastinvest.cloud/ để xem monitoring cho data và node-exporter
-3. Truy cập https://jenkins.fastinvest.cloud/ để quản lý CI-CD (check jenkinsfile)
+![Dashboard mongo](mongo.png)
+![Dashboard Node](node.png)
+
+3. Truy cập https://jenkins.fastinvest.cloud/ để quản lý CI-CD (check jenkinsfile với chi tiết script)
+![Hình ảnh giao diện quàn lý ci-cd](jenkins.png)
